@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option go_package = ".;hello_go";
+
+service Chat {
+  rpc Echo (Sentence) returns (Sentence);
+}
+
+message Sentence {
+  string speaker = 1 ;
+  string content = 2;
+}
