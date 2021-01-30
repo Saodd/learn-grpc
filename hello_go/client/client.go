@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/Saodd/learn-grpc/hello_go"
 	"google.golang.org/grpc"
 	"log"
+	"time"
 )
 
 func main() {
@@ -26,9 +26,13 @@ func main() {
 		Speaker: "Lewin-Client",
 		Content: "Hello, world!",
 	}
-	resp, err := client.Echo(context.Background(), &req)
-	if err != nil {
-		log.Fatalln("调用失败: ", err)
+	for range time.Tick(time.Millisecond * 200) {
+		go func() {
+			resp, err := client.Echo(context.Background(), &req)
+			if err != nil {
+				log.Println("------------调用失败: ", err)
+			}
+			log.Println("收到回复: ", resp)
+		}()
 	}
-	fmt.Println("收到回复: ", resp)
 }

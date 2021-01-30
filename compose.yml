@@ -1,0 +1,19 @@
+version: "3.2"
+
+networks:
+  net:
+    driver: overlay
+    attachable: true
+
+services:
+  echo:
+    image: learn-grpc:go
+    deploy:
+      mode: replicated
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "5005:5005"
+    networks:
+      - net
